@@ -1,14 +1,9 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { SignOut } from "../components/welcome/actions";
-import Welcome from "../components/welcome/Welcome";
 
 const ProfilePage = () => {
   const { data: session } = useSession();
-
-  if (!session) {
-    return <Welcome />;
-  }
 
   return (
     <>
