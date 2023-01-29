@@ -1,60 +1,93 @@
 "use client";
 import { useState } from "react";
-import PhoneInput from "react-phone-number-input";
-import "react-phone-number-input/style.css";
 
+import { AsYouType, parsePhoneNumber } from "libphonenumber-js";
+import { Input } from "react-daisyui";
 import { api } from "../utils/api";
 
+enum Step {
+  Unsent = "unsent",
+  Invalid = "invalid",
+  Sent = "sent",
+  Verified = "verified",
+}
+
 export default function SMSVerif() {
-  const [phoneNumber, setPhoneNumber] = useState();
-  const [inputCode, setInputCode] = useState();
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [sentPhoneNumber, setSentPhoneNumber] = useState("");
+  const [verifyStep, setVerifyStep] = useState<Step>(Step.Unsent);
+  const [inputCode, setInputCode] = useState("");
   const verificationService = api.twilio.verificationService.useQuery();
   const sendTokenMutation = api.twilio.sendToken.useMutation();
   const checkTokenMutation = api.twilio.checkToken.useMutation();
 
   const handleNumberSubmit = () => {
-    verificationService;
+    // verificationService;
     if (verificationService.data) {
-      if (phoneNumber && verificationService.data.sid)
+      let rawPhoneNumber;
+      try {
+        rawPhoneNumber = parsePhoneNumber(phoneNumber, "US").number ?? null;
+      } catch {
+        setVerifyStep(Step.Invalid);
+      }
+      if (rawPhoneNumber && verificationService.data.sid) {
+        setSentPhoneNumber(rawPhoneNumber);
+        setVerifyStep(Step.Sent);
         sendTokenMutation.mutate({
-          serviceSid: verificationService.data.sid,
-          receivingNumber: phoneNumber,
+          serviceSid: verificationService.data.sid as string,
+          receivingNumber: rawPhoneNumber,
         });
+      }
     }
   };
 
   const handleCodeSubmit = () => {
     console.log("hewoo");
-    // checkTokenMutation.mutate({
-    //   serviceSid: sid,
-    //   receivingNumber: phoneNumber,
-    //   code: inputCode,
-    // });
+    if (verificationService.data && inputCode && sentPhoneNumber) {
+      checkTokenMutation.mutate({
+        serviceSid: verificationService.data.sid as string,
+        receivingNumber: sentPhoneNumber,
+        code: inputCode,
+      });
+      console.log(checkTokenMutation.data);
+    }
   };
 
   return (
     <div className="card w-96 bg-base-100 shadow-xl">
-      <PhoneInput
-        international
-        placeholder="Enter phone number"
-        defaultCountry="US"
+      <Input
+        type="text"
+        placeholder="phone number"
+        className="input w-full max-w-xs"
         value={phoneNumber}
-        onChange={setPhoneNumber}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          const currentNumber = new AsYouType("US").input(e.target.value);
+          setVerifyStep(Step.Unsent);
+          setPhoneNumber(currentNumber);
+        }}
       />
       <button
         className="btn"
         onClick={handleNumberSubmit}
         disabled={sendTokenMutation.isLoading}
       >
-        send message to this number
+        {verifyStep == Step.Unsent
+          ? "send verification message"
+          : verifyStep == Step.Invalid
+          ? "invalid phone number"
+          : verifyStep == Step.Sent
+          ? "sent"
+          : "verified"}
       </button>
 
-      <input
+      <Input
         type="text"
         placeholder="verification code"
         className="input w-full max-w-xs"
         value={inputCode}
-        onChange={setInputCode}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setInputCode(e.target.value);
+        }}
       />
       <button
         className="btn"
