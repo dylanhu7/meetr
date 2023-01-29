@@ -8,11 +8,11 @@ import Header from "../components/Header";
 import Welcome from "../components/welcome/Welcome";
 import "../styles/globals.css";
 
-// import { Inter } from "@next/font/google";
+import { Inter } from "@next/font/google";
 
-// const inter = Inter({
-//   subsets: ["latin"],
-// });
+const inter = Inter({
+  subsets: ["latin"],
+});
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -23,8 +23,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <LoginBoundary>
         <div
           className={
-            // inter.className +
-            // " " +
+            inter.className +
+            " " +
             "flex flex-col items-center justify-center bg-gray-100"
           }
         >
