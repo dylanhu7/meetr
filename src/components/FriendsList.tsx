@@ -1,15 +1,16 @@
-"use client";
-
 import {
   ArrowsUpDownIcon,
   ChatBubbleLeftRightIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/solid";
 import { Button, Dropdown, Stats } from "react-daisyui";
+import { api } from "../utils/api";
 import AddFriend from "./add_friend/AddFriend";
 import FriendCard from "./FriendCard";
 
-export default function FriendList() {
+export default function FriendsList() {
+  const friends = api.friends.getFriends.useQuery();
+  console.log(friends);
   return (
     <>
       <div className="flex flex-col gap-4">

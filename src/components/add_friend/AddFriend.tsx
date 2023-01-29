@@ -1,5 +1,3 @@
-"use client";
-
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
@@ -46,7 +44,7 @@ export default function AddFriend() {
       >
         <div className="modal-box flex flex-col gap-4">
           <div className="flex w-full items-center justify-center gap-2 font-sans">
-            <div className="form-control w-full max-w-xs">
+            <div className="form-control w-full">
               <label className="label">
                 <span className="label-text text-lg font-bold">
                   {"What's your friend's name?"}
