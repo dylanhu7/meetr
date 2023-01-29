@@ -135,7 +135,7 @@ const FriendPage: NextPage = () => {
               </div>
               {friend.data.events.length === 0 && (
                 <p className="text-sm text-gray-500">
-                  You haven't logged any meets with this friend yet.
+                  You haven&apos;t logged any meets with this friend yet.
                 </p>
               )}
             </Card.Body>
