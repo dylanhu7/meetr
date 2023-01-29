@@ -1,10 +1,7 @@
 import { exampleRouter } from "./routers/example";
 import { friendsRouter } from "./routers/friends";
 import { twilioRouter } from "./routers/twilio";
-<<<<<<< HEAD
 import { userRouter } from "./routers/user";
-=======
->>>>>>> 18de690f58d8f654ea83b622163d145a99174246
 import { createTRPCRouter } from "./trpc";
 
 /**
