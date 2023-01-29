@@ -101,6 +101,8 @@ export default function LogMeet(props: LogMeetProps) {
                 value={eventDate}
                 onChange={setEventDate}
                 asSingle
+                // No future dates
+                maxDate={new Date()}
               />
             </div>
           </div>
