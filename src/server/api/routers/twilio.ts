@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import twilio from "twilio";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -7,7 +8,7 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const messagingService = process.env.TWILIO_MESSAGING_SERVICE;
 const senderNumber = process.env.TWILIO_NUMBER;
 
-const client = require("twilio")(accountSid, authToken);
+const client = twilio(accountSid, authToken);
 
 // const ZDate = z.object({
 //   year: z.string(),
