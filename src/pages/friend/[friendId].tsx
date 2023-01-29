@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Card } from "react-daisyui";
+import { Button, Card, Collapse } from "react-daisyui";
 import FriendlyRange from "../../components/FriendlyRange";
 import BirthdayEditable from "../../components/friend_view/BirthdayEditable";
 import EmailEditable from "../../components/friend_view/EmailEditable";
@@ -16,12 +16,16 @@ import computeScore from "../../utils/score";
 const FriendPage: NextPage = () => {
   const router = useRouter();
   const friendId = router.query.friendId as string;
-
   const friend = api.friends.getFriend.useQuery({ id: friendId });
-
   const [score, setScore] = useState<number>(30);
-
   computeScore(friend.data?.events ?? []);
+
+  const deleteFriend = api.friends.deleteFriend.useMutation({
+    onSuccess: () => {
+      // Invalidate
+      void router.push("/");
+    },
+  });
 
   return (
     <>
@@ -54,6 +58,26 @@ const FriendPage: NextPage = () => {
               <EmailEditable friend={friend.data} />
               <NoteEditable friend={friend.data} />
             </Card.Body>
+          </Card>
+          {/* Delete friend button */}
+          <Card>
+            <Collapse icon="arrow">
+              <Collapse.Title className="text-xl font-medium">
+                Dangerous Settings
+              </Collapse.Title>
+              <Collapse.Content>
+                <div className="flex flex-col">
+                  <Button
+                    variant="outline"
+                    color="error"
+                    size="sm"
+                    onClick={() => deleteFriend.mutate({ id: friendId })}
+                  >
+                    Delete Friend
+                  </Button>
+                </div>
+              </Collapse.Content>
+            </Collapse>
           </Card>
         </div>
       ) : (

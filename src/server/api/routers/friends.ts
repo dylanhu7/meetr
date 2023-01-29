@@ -3,6 +3,15 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const friendsRouter = createTRPCRouter({
+  deleteFriend: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.friend.delete({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
   getFriend: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(({ ctx, input }) => {
