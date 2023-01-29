@@ -7,14 +7,14 @@ import { api } from "../../utils/api";
 import BioMarker from "../BioMarker";
 import EditModal from "../EditModal";
 
-function dateToDateValue(date: Date): DateValueType {
+export function dateToDateValue(date: Date): DateValueType {
   return {
     startDate: date,
     endDate: date,
   };
 }
 
-function dateToDateString(date: Date): string {
+export function dateToDateString(date: Date): string {
   // Convert to Month Day Year
   return date.toLocaleDateString("en-US", {
     month: "long",

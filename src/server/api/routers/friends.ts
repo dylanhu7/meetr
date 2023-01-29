@@ -33,6 +33,7 @@ export const friendsRouter = createTRPCRouter({
         phone: z.string().optional(),
         birthday: z.date().optional(),
         note: z.string().optional(),
+        targetScore: z.number().optional(),
       })
     )
     .mutation(({ ctx, input }) => {
@@ -46,6 +47,7 @@ export const friendsRouter = createTRPCRouter({
           phone: input.phone,
           birthday: input.birthday,
           note: input.note,
+          targetScore: input.targetScore,
         },
       });
     }),

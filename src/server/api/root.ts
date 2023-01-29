@@ -1,3 +1,4 @@
+import { eventsRouter } from "./routers/event";
 import { exampleRouter } from "./routers/example";
 import { friendsRouter } from "./routers/friends";
 import { twilioRouter } from "./routers/twilio";
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   friends: friendsRouter,
   twilio: twilioRouter,
   user: userRouter,
+  events: eventsRouter,
 });
 
 // export type definition of API
