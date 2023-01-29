@@ -720,7 +720,11 @@ damerau-levenshtein@^1.0.8:
   resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.8.tgz#b43d286ccbd36bc5b2f7ed41caf2d0aba1f8a6e7"
   integrity sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==
 
+<<<<<<< HEAD
 dayjs@^1.11.7, dayjs@^1.8.29:
+=======
+dayjs@^1.8.29:
+>>>>>>> 18de690f58d8f654ea83b622163d145a99174246
   version "1.11.7"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.7.tgz#4b296922642f70999544d1144a2c25730fce63e2"
   integrity sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==
@@ -1461,11 +1465,14 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+<<<<<<< HEAD
 heroicons@^2.0.14:
   version "2.0.14"
   resolved "https://registry.yarnpkg.com/heroicons/-/heroicons-2.0.14.tgz#bba3b9df8419e7b1e209d5838bff2da7a7566c3e"
   integrity sha512-c0783w9OG/5SDsR5+cbTys5XnYEjPeqCs3w76HekZAA4VWjzLBq5nniGaZIcL6OqN42gseDiXAsd5ugNcKX+IQ==
 
+=======
+>>>>>>> 18de690f58d8f654ea83b622163d145a99174246
 https-proxy-agent@^5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-5.0.1.tgz#c59ef224a04fe8b754f3db0063a25ea30d0005d6"

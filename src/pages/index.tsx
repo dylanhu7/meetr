@@ -1,7 +1,6 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import FriendsList from "../components/FriendsList";
-import SMSVerif from "../components/sms/SMSVerif";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -15,7 +14,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <FriendsList />
-      <SMSVerif />
     </>
   );
 }
