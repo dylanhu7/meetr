@@ -3,6 +3,7 @@
     "esbenp.prettier-vscode",
     "bradlc.vscode-tailwindcss",
     "csstools.postcss",
-    "prisma.prisma"
+    "prisma.prisma",
+    "foxundermoon.shell-format"
   ]
 }
