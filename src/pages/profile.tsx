@@ -1,12 +1,22 @@
 import { useSession } from "next-auth/react";
+import Head from "next/head";
 import { SignOut } from "../components/welcome/actions";
 import Welcome from "../components/welcome/Welcome";
 
 const ProfilePage = () => {
   const { data: session } = useSession();
 
-  const loggedInContent = (
+  if (!session) {
+    return <Welcome />;
+  }
+
+  return (
     <>
+      <Head>
+        <title>meetr: profile</title>
+        <meta name="description" content="friends, managed." />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <h2 className="text-2xl font-black">Profile</h2>
       <div className="flex flex-col justify-center gap-4">
         <p className="text-2xl font-medium">
@@ -18,8 +28,6 @@ const ProfilePage = () => {
       </div>
     </>
   );
-
-  return session ? loggedInContent : <Welcome />;
 };
 
 export default ProfilePage;
