@@ -1,10 +1,9 @@
-import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 import FriendList from "../components/FriendList";
 import Welcome from "../components/welcome/Welcome";
-import { authOptions } from "../pages/api/auth/[...nextauth]";
 
-export default async function Home() {
-  const session = await getServerSession(authOptions);
+export default function Home() {
+  const { data: session } = useSession();
   console.log(session);
   //   const friends = api.friends.getFriends.useQuery();
   if (!session) {

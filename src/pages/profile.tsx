@@ -1,10 +1,9 @@
-import { getServerSession } from "next-auth";
-import { SignOut } from "../../components/welcome/actions";
-import Welcome from "../../components/welcome/Welcome";
-import { authOptions } from "../../pages/api/auth/[...nextauth]";
+import { useSession } from "next-auth/react";
+import { SignOut } from "../components/welcome/actions";
+import Welcome from "../components/welcome/Welcome";
 
-const ProfilePage = async () => {
-  const session = await getServerSession(authOptions);
+const ProfilePage = () => {
+  const { data: session } = useSession();
 
   const loggedInContent = (
     <>

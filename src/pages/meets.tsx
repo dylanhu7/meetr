@@ -1,4 +1,4 @@
-import MeetsList from "../../components/MeetsPage";
+import MeetsList from "../components/MeetsPage";
 
 const MeetsPage = () => {
   return <MeetsList />;
