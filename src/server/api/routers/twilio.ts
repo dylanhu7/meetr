@@ -24,7 +24,7 @@ function test_message(receiver: string) {
 }
 
 export const twilioRouter = createTRPCRouter({
-  verificationService: publicProcedure.query(async () => {
+  verificationService: publicProcedure.mutation(async () => {
     const service = await client.verify.v2.services.create({
       friendlyName: "meetr",
     });
