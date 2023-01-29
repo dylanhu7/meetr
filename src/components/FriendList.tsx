@@ -4,9 +4,9 @@ import {
   ArrowsUpDownIcon,
   ChatBubbleLeftRightIcon,
   UserCircleIcon,
-  UserPlusIcon,
 } from "@heroicons/react/24/solid";
 import { Button, Dropdown, Stats } from "react-daisyui";
+import AddFriend from "./add_friend/AddFriend";
 import FriendCard from "./FriendCard";
 
 export default function FriendList() {
@@ -14,14 +14,7 @@ export default function FriendList() {
     <>
       <div className="flex flex-col gap-4">
         <div className="flex justify-end gap-4">
-          <Button
-            variant="outline"
-            color="primary"
-            size="sm"
-            startIcon={<UserPlusIcon className="h-4 w-4" />}
-          >
-            Add Friend
-          </Button>
+          <AddFriend />
           <Dropdown hover horizontal="center" vertical="end">
             <Button
               variant="outline"
