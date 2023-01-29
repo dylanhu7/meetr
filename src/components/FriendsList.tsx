@@ -1,5 +1,6 @@
 import {
-  ArrowsUpDownIcon,
+  ArrowDownIcon,
+  ArrowUpIcon,
   ChatBubbleLeftRightIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/solid";
@@ -15,9 +16,17 @@ enum Sorts {
   Score = "Score",
 }
 
+enum SortDirections {
+  Asc = "Ascending",
+  Desc = "Descending",
+}
+
 export default function FriendsList() {
   const friends = api.friends.getFriends.useQuery();
   const [sort, setSort] = useState<Sorts>(Sorts.Alph);
+  const [sortDirection, setSortDirection] = useState<SortDirections>(
+    SortDirections.Asc
+  );
   return friends.isLoading ? (
     <></>
   ) : (
@@ -29,19 +38,35 @@ export default function FriendsList() {
             <Button
               variant="outline"
               size="sm"
-              startIcon={<ArrowsUpDownIcon className="h-4 w-4" />}
+              startIcon={
+                sortDirection === SortDirections.Asc ? (
+                  <ArrowUpIcon className="h-4 w-4" />
+                ) : (
+                  <ArrowDownIcon className="h-4 w-4" />
+                )
+              }
             >
-              {Sorts[sort as keyof typeof Sorts]}
+              {sort}
             </Button>
             <Dropdown.Menu className="w-52">
-              {Object.keys(Sorts).map((key) => (
+              {[Sorts.Alph, Sorts.Score].map((s) => (
                 <Dropdown.Item
-                  key={key}
+                  key={s}
                   onClick={() => {
-                    setSort(key as Sorts);
+                    if (s !== sort) {
+                      setSortDirection(SortDirections.Desc);
+                      setSort(s);
+                    } else {
+                      setSortDirection(
+                        sortDirection === SortDirections.Asc
+                          ? SortDirections.Desc
+                          : SortDirections.Asc
+                      );
+                      console.log(sortDirection);
+                    }
                   }}
                 >
-                  {Sorts[key as keyof typeof Sorts]}
+                  {s}
                 </Dropdown.Item>
               ))}
             </Dropdown.Menu>
@@ -99,9 +124,15 @@ export default function FriendsList() {
           {friends.data
             ?.sort((a, b) => {
               if (sort === Sorts.Alph) {
-                return a.name.localeCompare(b.name);
+                return (
+                  a.name.localeCompare(b.name) *
+                  (sortDirection === SortDirections.Asc ? 1 : -1)
+                );
               } else {
-                return computeScore(b.events) - computeScore(a.events);
+                return (
+                  (computeScore(b.events) - computeScore(a.events)) *
+                  (sortDirection === SortDirections.Asc ? -1 : 1)
+                );
               }
             })
             .map((friend, index) => (
