@@ -1,5 +1,3 @@
-"use client";
-
 import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import { Button } from "react-daisyui";
 import MeetCard from "./MeetCard";
