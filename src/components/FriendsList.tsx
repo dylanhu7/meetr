@@ -54,7 +54,6 @@ export default function FriendsList() {
               {friends.data?.length}
             </Stats.Stat.Item>
             <Stats.Stat.Item variant="desc">
-              {/* TODO: percentage met with */}
               met with{" "}
               <b>
                 {friends.data
@@ -108,7 +107,10 @@ export default function FriendsList() {
             .map((friend, index) => (
               <div key={friend.id}>
                 <li>
-                  <FriendCard friend={friend} />
+                  <FriendCard
+                    friend={friend}
+                    score={computeScore(friend.events)}
+                  />
                 </li>
                 {index !== friends.data.length - 1 && (
                   <hr className="mx-4"></hr>

@@ -6,6 +6,7 @@ import FriendlyRange from "./FriendlyRange";
 
 interface FriendCardProps {
   friend: Friend;
+  score: number;
 }
 
 export default function FriendCard(props: FriendCardProps) {
@@ -16,7 +17,7 @@ export default function FriendCard(props: FriendCardProps) {
     >
       <div className="flex grow flex-col gap-2">
         <Card.Title>{props.friend.name}</Card.Title>
-        <FriendlyRange />
+        <FriendlyRange score={props.score} />
       </div>
       <ChevronRightIcon className="h-6 w-6" />
     </Link>

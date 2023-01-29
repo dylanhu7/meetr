@@ -104,11 +104,9 @@ const FriendPage: NextPage = () => {
                 </p>
                 <p>
                   You are{" "}
-                  <strong>
-                    {loadedTargetScore - score > 0 ? "below" : "above"}
-                  </strong>{" "}
+                  <strong>{score - realScore > 0 ? "below" : "above"}</strong>{" "}
                   target.{" "}
-                  {loadedTargetScore - score > 0
+                  {score - realScore > 0
                     ? "Try to meet with them more!"
                     : "Great job!"}
                 </p>

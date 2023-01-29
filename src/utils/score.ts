@@ -2,9 +2,31 @@
  * Takes a list of Events and returns a score based on how engaged the events are.
  */
 
-export default function computeScore(events: unknown) {
-  console.log(events);
-  return 0;
+import type { Event } from "@prisma/client";
+
+const GROWTH_FACTOR = 1.01;
+const FACTOR = 100 / 18;
+
+/**
+ * Computes the score for a list of events. Score is the sum over all event
+ * of GROWTH_FACTOR^(-daysSinceEvent) where daysSinceEvent is the number of days
+ * since the event.
+ * @param events The list of events to compute the score for
+ * @returns The score for the list of events
+ */
+export default function computeScore(events: Event[]) {
+  let score = 0;
+  for (const event of events) {
+    const daysSinceEvent = Math.floor(
+      (new Date().getTime() - new Date(event.date).getTime()) /
+        1000 /
+        60 /
+        60 /
+        24
+    );
+    score += Math.pow(GROWTH_FACTOR, -daysSinceEvent);
+  }
+  return Math.min(Math.floor(score * FACTOR), 100);
 }
 
 export function scoreToWordFrequency(score: number) {
