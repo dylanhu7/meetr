@@ -6,7 +6,7 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const messagingService = process.env.TWILIO_MESSAGING_SERVICE;
-const senderNumber = process.env.TWILIO_NUMBER;
+// const senderNumber = process.env.TWILIO_NUMBER;
 
 const client = twilio(accountSid, authToken);
 

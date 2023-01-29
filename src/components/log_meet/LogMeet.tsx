@@ -1,6 +1,5 @@
 import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { Button, Input, Select, Textarea } from "react-daisyui";
 import Datepicker from "react-tailwindcss-datepicker";
@@ -22,13 +21,12 @@ export default function LogMeet(props: LogMeetProps) {
   );
   const [eventLocation, setEventLocation] = useState<string>();
   const [eventNote, setEventNote] = useState<string>();
-  const router = useRouter();
 
   const friends = api.friends.getFriends.useQuery();
 
   const utils = api.useContext();
   const mutation = api.events.addEvent.useMutation({
-    onSuccess: (event) => {
+    onSuccess: () => {
       void utils.friends.getFriends.invalidate();
       void utils.friends.getFriend.invalidate();
     },
