@@ -3,7 +3,6 @@ import { Tabs } from "react-daisyui";
 import { Tab } from "../types/tabs";
 
 export default function HeaderTabs() {
-  // const size = window.innerWidth < 768 ? "sm" : "md";
   const router = useRouter();
   const path = usePathname();
   const value =
@@ -11,7 +10,9 @@ export default function HeaderTabs() {
       ? Tab.Profile
       : path === "/meets"
       ? Tab.Meets
-      : Tab.Friends;
+      : path === "/"
+      ? Tab.Friends
+      : undefined;
   const handleChange = (value: Tab) => {
     switch (value) {
       case Tab.Friends:

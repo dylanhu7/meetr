@@ -10,7 +10,9 @@ import FriendCard from "./FriendCard";
 
 export default function FriendsList() {
   const friends = api.friends.getFriends.useQuery();
-  return (
+  return friends.isLoading ? (
+    <></>
+  ) : (
     <>
       <div className="flex flex-col gap-4">
         <div className="flex justify-end gap-4">
@@ -32,8 +34,11 @@ export default function FriendsList() {
         <Stats className="shadow">
           <Stats.Stat>
             <Stats.Stat.Item variant="title">Friends</Stats.Stat.Item>
-            <Stats.Stat.Item variant="value">42</Stats.Stat.Item>
+            <Stats.Stat.Item variant="value">
+              {friends.data?.length}
+            </Stats.Stat.Item>
             <Stats.Stat.Item variant="desc">
+              {/* TODO: percentage met with */}
               met with <b>40%</b> last month
             </Stats.Stat.Item>
             <Stats.Stat.Item variant="figure" className="text-primary">
@@ -42,6 +47,7 @@ export default function FriendsList() {
           </Stats.Stat>
           <Stats.Stat>
             <Stats.Stat.Item variant="title">Meets</Stats.Stat.Item>
+            {/* TODO: number of meets */}
             <Stats.Stat.Item variant="value">325</Stats.Stat.Item>
             <Stats.Stat.Item variant="desc">
               tracked with <b>meetr</b>
@@ -51,11 +57,16 @@ export default function FriendsList() {
             </Stats.Stat.Item>
           </Stats.Stat>
         </Stats>
-        <div className="flex flex-col gap-4">
-          {friends.data?.map((friend) => (
-            <FriendCard key={friend.id} friend={friend} />
+        <ul className="menu rounded-box menu-compact w-full border bg-base-100 p-2 lg:menu-normal">
+          {friends.data?.map((friend, index) => (
+            <>
+              <li key={friend.id}>
+                <FriendCard friend={friend} />
+              </li>
+              {index !== friends.data.length - 1 && <hr className="mx-4"></hr>}
+            </>
           ))}
-        </div>
+        </ul>
         <div className="flex justify-center opacity-40">
           <h1 className="select-none text-4xl font-black">
             <span className="text-[#1459C1]">m</span>

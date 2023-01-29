@@ -1,5 +1,6 @@
 import { UserPlusIcon } from "@heroicons/react/24/solid";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { Button, Input } from "react-daisyui";
 import { api } from "../../utils/api";
@@ -8,12 +9,13 @@ export default function AddFriend() {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [friendName, setFriendName] = useState<string>();
+  const router = useRouter();
 
   const utils = api.useContext();
   const mutation = api.friends.addFriend.useMutation({
-    onSettled() {
-      // Sync with server once mutation has settled
+    onSuccess: (friend) => {
       void utils.friends.getFriends.invalidate();
+      void router.push(`/friend/${friend.id}`);
     },
   });
   const newFriend =
