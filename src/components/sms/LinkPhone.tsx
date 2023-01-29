@@ -11,7 +11,9 @@ export default function LinkPhone() {
   });
 
   function handleClick() {
-    updateNumberMutation.mutate({ id: session.user.id });
+    session &&
+      session.user &&
+      updateNumberMutation.mutate({ id: session.user.id });
   }
 
   if (session?.user) {

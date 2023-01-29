@@ -10,13 +10,13 @@ const senderNumber = process.env.TWILIO_NUMBER;
 
 const client = twilio(accountSid, authToken);
 
-function test_message(receiver: string) {
-  client.messages.create({
-    from: senderNumber,
-    body: "Hi there",
-    to: receiver,
-  });
-}
+// function test_message(receiver: string) {
+//   client.messages.create({
+//     from: senderNumber,
+//     body: "Hi there",
+//     to: receiver,
+//   });
+// }
 
 export const twilioRouter = createTRPCRouter({
   verificationService: protectedProcedure.mutation(async () => {

@@ -93,7 +93,7 @@ export default function SMSVerif() {
         setVerifyStep(Step.InvalidCode);
       } else {
         setVerifyStep(Step.Verified);
-        if (session.user) {
+        if (session && session.user) {
           updateNumberMutation.mutate({
             id: session.user.id,
             phone: sentPhoneNumber,
@@ -207,7 +207,7 @@ export default function SMSVerif() {
                 ref={secondNodeRef}
                 style={{
                   ...defaultStyle,
-                  ...transitionStyles[state],
+                  ...transitionStyles[state as keyof typeof transitionStyles],
                 }}
               >
                 <div className="items-center text-center">
