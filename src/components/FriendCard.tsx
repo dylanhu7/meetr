@@ -8,7 +8,7 @@ export default function FriendCard() {
   return (
     <Card compact className="w-full">
       <Card.Body>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-8">
           <div className="flex grow flex-col gap-1">
             <Card.Title>Nishka P.</Card.Title>
             <FriendlyRange />
