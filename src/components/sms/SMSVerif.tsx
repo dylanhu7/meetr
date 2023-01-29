@@ -109,7 +109,7 @@ export default function SMSVerif() {
 
   function ErrorMessage(prop: { message: string }) {
     return (
-      <div className="alert alert-error shadow-lg">
+      <div className="alert alert-error w-[83%]">
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -130,9 +130,9 @@ export default function SMSVerif() {
     );
   }
 
-  function SuccesMessage(prop: { message: string }) {
+  function SuccessMessage(prop: { message: string }) {
     return (
-      <div className="alert alert-success shadow-lg">
+      <div className="alert alert-success w-[83%]">
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -191,55 +191,60 @@ export default function SMSVerif() {
             <ArrowSmallRightIcon className="h-6 w-6" />
           </button>
         </div>
-
         {verifyStep == Step.InvalidNumber && (
           <ErrorMessage message={"invalid number"} />
         )}
 
-        {verifyStep != Step.InvalidNumber && phoneNumber && (
-          <Transition
-            nodeRef={secondNodeRef}
-            in={secondPageVis}
-            timeout={duration}
-          >
-            {(state) => (
-              <div
-                ref={secondNodeRef}
-                style={{
-                  ...defaultStyle,
-                  ...transitionStyles[state as keyof typeof transitionStyles],
-                }}
-              >
-                <div className="items-center text-center">
-                  <div className="flex flex-col gap-3">
-                    <SuccesMessage message={"code sent!"} />
-                    <div className="flex flex-row gap-4">
-                      <Input
-                        type="text"
-                        placeholder="verification code"
-                        className="input w-full max-w-xs"
-                        value={inputCode}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                          setInputCode(e.target.value);
-                        }}
-                      />
-                      <button onClick={handleCodeSubmit}>
-                        <ArrowSmallRightIcon className="h-6 w-6" />
-                      </button>
-                    </div>
+        {(verifyStep === Step.Sent ||
+          verifyStep === Step.InvalidCode ||
+          verifyStep === Step.Verified ||
+          verifyStep === Step.InvalidNumber) &&
+          phoneNumber && (
+            <Transition
+              nodeRef={secondNodeRef}
+              in={secondPageVis}
+              timeout={duration}
+            >
+              {(state) => (
+                <div
+                  ref={secondNodeRef}
+                  style={{
+                    ...defaultStyle,
+                    ...transitionStyles[state as keyof typeof transitionStyles],
+                  }}
+                >
+                  <div className="items-center text-center">
+                    <div className="flex flex-col gap-3">
+                      <SuccessMessage message={"code sent!"} />
+                      <div className="flex flex-row gap-4 pr-2">
+                        <Input
+                          type={"text"}
+                          placeholder="verification code"
+                          className="input w-full"
+                          value={inputCode}
+                          onChange={(
+                            e: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            setInputCode(e.target.value);
+                          }}
+                        />
+                        <button onClick={handleCodeSubmit}>
+                          <ArrowSmallRightIcon className="h-6 w-6" />
+                        </button>
+                      </div>
 
-                    {verifyStep == Step.InvalidCode && (
-                      <ErrorMessage message={"invalid code"} />
-                    )}
-                    {verifyStep == Step.Verified && (
-                      <SuccesMessage message={"verified!"} />
-                    )}
+                      {verifyStep == Step.InvalidCode && (
+                        <ErrorMessage message={"invalid code"} />
+                      )}
+                      {verifyStep == Step.Verified && (
+                        <SuccessMessage message={"verified!"} />
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </Transition>
-        )}
+              )}
+            </Transition>
+          )}
       </div>
     </div>
   );
