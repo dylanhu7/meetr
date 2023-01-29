@@ -25,10 +25,16 @@ export default function HeaderTabs() {
   };
 
   return (
-    <Tabs value={value} boxed onChange={handleChange} className="s">
-      <Tabs.Tab value={Tab.Friends}>friends</Tabs.Tab>
-      <Tabs.Tab value={Tab.Meets}>meets</Tabs.Tab>
-      <Tabs.Tab value={Tab.Profile}>profile</Tabs.Tab>
+    <Tabs value={value} boxed onChange={handleChange}>
+      <Tabs.Tab className="tab-xs min-[400px]:tab-md" value={Tab.Friends}>
+        friends
+      </Tabs.Tab>
+      <Tabs.Tab className="tab-xs min-[400px]:tab-md" value={Tab.Meets}>
+        meets
+      </Tabs.Tab>
+      <Tabs.Tab className="tab-xs min-[400px]:tab-md" value={Tab.Profile}>
+        profile
+      </Tabs.Tab>
     </Tabs>
   );
 }
