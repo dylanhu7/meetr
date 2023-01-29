@@ -3,13 +3,21 @@ import {
   ChatBubbleLeftRightIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/solid";
+import { useState } from "react";
 import { Button, Dropdown, Stats } from "react-daisyui";
 import { api } from "../utils/api";
+import computeScore from "../utils/score";
 import AddFriend from "./add_friend/AddFriend";
 import FriendCard from "./FriendCard";
 
+enum Sorts {
+  Alph = "A - Z",
+  Score = "Score",
+}
+
 export default function FriendsList() {
   const friends = api.friends.getFriends.useQuery();
+  const [sort, setSort] = useState<Sorts>(Sorts.Alph);
   return friends.isLoading ? (
     <></>
   ) : (
@@ -23,11 +31,19 @@ export default function FriendsList() {
               size="sm"
               startIcon={<ArrowsUpDownIcon className="h-4 w-4" />}
             >
-              A-Z
+              {Sorts[sort as keyof typeof Sorts]}
             </Button>
             <Dropdown.Menu className="w-52">
-              <Dropdown.Item>A-Z</Dropdown.Item>
-              <Dropdown.Item>Score</Dropdown.Item>
+              {Object.keys(Sorts).map((key) => (
+                <Dropdown.Item
+                  key={key}
+                  onClick={() => {
+                    setSort(key as Sorts);
+                  }}
+                >
+                  {Sorts[key as keyof typeof Sorts]}
+                </Dropdown.Item>
+              ))}
             </Dropdown.Menu>
           </Dropdown>
         </div>
@@ -58,14 +74,24 @@ export default function FriendsList() {
           </Stats.Stat>
         </Stats>
         <ul className="menu rounded-box menu-compact w-full border bg-base-100 p-2 lg:menu-normal">
-          {friends.data?.map((friend, index) => (
-            <>
-              <li key={friend.id}>
-                <FriendCard friend={friend} />
-              </li>
-              {index !== friends.data.length - 1 && <hr className="mx-4"></hr>}
-            </>
-          ))}
+          {friends.data
+            ?.sort((a, b) => {
+              if (sort === Sorts.Alph) {
+                return a.name.localeCompare(b.name);
+              } else {
+                return computeScore(b.events) - computeScore(a.events);
+              }
+            })
+            .map((friend, index) => (
+              <>
+                <li key={friend.id}>
+                  <FriendCard friend={friend} />
+                </li>
+                {index !== friends.data.length - 1 && (
+                  <hr className="mx-4"></hr>
+                )}
+              </>
+            ))}
         </ul>
         <div className="flex justify-center opacity-40">
           <h1 className="select-none text-4xl font-black">

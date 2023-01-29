@@ -10,6 +10,9 @@ export const friendsRouter = createTRPCRouter({
         where: {
           id: input.id,
         },
+        include: {
+          events: true,
+        },
       });
     }),
   updateFriend: protectedProcedure
@@ -41,6 +44,9 @@ export const friendsRouter = createTRPCRouter({
     return ctx.prisma.friend.findMany({
       where: {
         userId: ctx.session.user.id,
+      },
+      include: {
+        events: true,
       },
     });
   }),
