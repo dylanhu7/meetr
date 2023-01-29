@@ -1,5 +1,6 @@
 import type { Event, Friend } from "@prisma/client";
 import { Collapse } from "react-daisyui";
+import { timeSinceDateToVerbose } from "../utils/score";
 
 interface MeetCardProps {
   meet: Event & {
@@ -16,7 +17,7 @@ export default function MeetCard(props: MeetCardProps) {
           <strong>{props.meet.friend.name}</strong>
         </div>
         <div className="text-sm text-gray-500">
-          {new Date(props.meet.date).toLocaleDateString()}
+          {timeSinceDateToVerbose(props.meet.date)} at {props.meet.location}
         </div>
       </Collapse.Title>
       <Collapse.Content className="px-0">

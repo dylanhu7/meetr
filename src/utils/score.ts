@@ -62,7 +62,7 @@ export function timeSinceDateToVerbose(pastDate: Date): string {
     const daysAgo = Math.floor(
       (now.getTime() - pastDate.getTime()) / (1000 * 60 * 60 * 24)
     );
-    return `${daysAgo} days ago`;
+    return `${daysAgo} day${daysAgo > 1 ? "s" : ""} ago`;
   }
   // If within the last month, return "X weeks ago"
   const lastMonth = new Date();
@@ -71,7 +71,7 @@ export function timeSinceDateToVerbose(pastDate: Date): string {
     const weeksAgo = Math.floor(
       (now.getTime() - pastDate.getTime()) / (1000 * 60 * 60 * 24 * 7)
     );
-    return `${weeksAgo} weeks ago`;
+    return `${weeksAgo} week${weeksAgo > 1 ? "s" : ""} ago`;
   }
   // If within the last year, return "X months ago"
   const lastYear = new Date();
@@ -80,11 +80,11 @@ export function timeSinceDateToVerbose(pastDate: Date): string {
     const monthsAgo = Math.floor(
       (now.getTime() - pastDate.getTime()) / (1000 * 60 * 60 * 24 * 30)
     );
-    return `${monthsAgo} months ago`;
+    return `${monthsAgo} month${monthsAgo > 1 ? "s" : ""} ago`;
   }
   // If more than a year ago, return "X years ago"
   const yearsAgo = Math.floor(
     (now.getTime() - pastDate.getTime()) / (1000 * 60 * 60 * 24 * 365)
   );
-  return `${yearsAgo} years ago`;
+  return `${yearsAgo} year${yearsAgo > 1 ? "s" : ""} ago`;
 }
