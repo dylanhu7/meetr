@@ -54,6 +54,7 @@ model User {
     emailVerified DateTime?
     image         String?
     phone         String?
+    phoneVerified Boolean?  @default(false)
     accounts      Account[]
     sessions      Session[]
     friends       Friend[]
