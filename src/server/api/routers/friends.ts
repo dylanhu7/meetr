@@ -16,10 +16,10 @@ export const friendsRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
-        name: z.string(),
+        name: z.string().optional(),
         email: z.string().optional(),
         phone: z.string().optional(),
-        birthday: z.string().optional(),
+        birthday: z.date().optional(),
         note: z.string().optional(),
       })
     )
