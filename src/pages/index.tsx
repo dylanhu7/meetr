@@ -1,7 +1,6 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import FriendList from "../components/FriendList";
-import Welcome from "../components/welcome/Welcome";
 
 export default function Home() {
   const { data: session } = useSession();

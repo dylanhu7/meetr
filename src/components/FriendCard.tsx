@@ -1,5 +1,3 @@
-"use client";
-
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { Card } from "react-daisyui";
 import FriendlyRange from "./FriendlyRange";

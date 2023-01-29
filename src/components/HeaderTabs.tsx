@@ -1,5 +1,3 @@
-"use client";
-
 import { usePathname, useRouter } from "next/navigation";
 import { Tabs } from "react-daisyui";
 import { Tab } from "../types/tabs";

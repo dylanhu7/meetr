@@ -1,5 +1,3 @@
-"use client";
-
 import { Badge, Collapse } from "react-daisyui";
 
 export default function MeetCard() {
