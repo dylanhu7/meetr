@@ -3,7 +3,6 @@ import { Tabs } from "react-daisyui";
 import { Tab } from "../types/tabs";
 
 export default function HeaderTabs() {
-  // const size = window.innerWidth < 768 ? "sm" : "md";
   const router = useRouter();
   const path = usePathname();
   const value =

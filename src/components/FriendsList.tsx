@@ -57,11 +57,16 @@ export default function FriendsList() {
             </Stats.Stat.Item>
           </Stats.Stat>
         </Stats>
-        <div className="flex flex-col gap-4">
-          {friends.data?.map((friend) => (
-            <FriendCard key={friend.id} friend={friend} />
+        <ul className="menu rounded-box menu-compact w-full border bg-base-100 p-2 lg:menu-normal">
+          {friends.data?.map((friend, index) => (
+            <>
+              <li key={friend.id}>
+                <FriendCard friend={friend} />
+              </li>
+              {index !== friends.data.length - 1 && <hr className="mx-4"></hr>}
+            </>
           ))}
-        </div>
+        </ul>
         <div className="flex justify-center opacity-40">
           <h1 className="select-none text-4xl font-black">
             <span className="text-[#1459C1]">m</span>
