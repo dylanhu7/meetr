@@ -17,35 +17,39 @@ export default function SMSVerif() {
   const [sentPhoneNumber, setSentPhoneNumber] = useState("");
   const [verifyStep, setVerifyStep] = useState<Step>(Step.Unsent);
   const [inputCode, setInputCode] = useState("");
-  const verificationService = api.twilio.verificationService.useQuery();
+  const verificationServiceMutation =
+    api.twilio.verificationService.useMutation();
   const sendTokenMutation = api.twilio.sendToken.useMutation();
   const checkTokenMutation = api.twilio.checkToken.useMutation();
 
   const handleNumberSubmit = () => {
-    // verificationService;
-    if (verificationService.data) {
+    verificationServiceMutation.mutate();
+    if (verificationServiceMutation.data) {
       let rawPhoneNumber;
       try {
         rawPhoneNumber = parsePhoneNumber(phoneNumber, "US").number ?? null;
       } catch {
         setVerifyStep(Step.Invalid);
       }
-      if (rawPhoneNumber && verificationService.data.sid) {
+      if (rawPhoneNumber && verificationServiceMutation.data.sid) {
         setSentPhoneNumber(rawPhoneNumber);
         setVerifyStep(Step.Sent);
         sendTokenMutation.mutate({
-          serviceSid: verificationService.data.sid as string,
+          serviceSid: verificationServiceMutation.data.sid as string,
           receivingNumber: rawPhoneNumber,
         });
       }
+    } else {
+      console.log("no data");
+      console.log(verificationServiceMutation.error);
     }
   };
 
   const handleCodeSubmit = () => {
     console.log("hewoo");
-    if (verificationService.data && inputCode && sentPhoneNumber) {
+    if (verificationServiceMutation.data && inputCode && sentPhoneNumber) {
       checkTokenMutation.mutate({
-        serviceSid: verificationService.data.sid as string,
+        serviceSid: verificationServiceMutation.data.sid as string,
         receivingNumber: sentPhoneNumber,
         code: inputCode,
       });
