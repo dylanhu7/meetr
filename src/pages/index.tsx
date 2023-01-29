@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
+import SMSVerif from "../components/SMSVerif";
 
 import { api } from "../utils/api";
 
@@ -20,6 +21,7 @@ const Home: NextPage = () => {
         </p>
         <AuthShowcase />
       </div>
+      <SMSVerif />
     </>
   );
 };
