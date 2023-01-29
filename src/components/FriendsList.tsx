@@ -63,8 +63,12 @@ export default function FriendsList() {
           </Stats.Stat>
           <Stats.Stat>
             <Stats.Stat.Item variant="title">Meets</Stats.Stat.Item>
-            {/* TODO: number of meets */}
-            <Stats.Stat.Item variant="value">325</Stats.Stat.Item>
+            <Stats.Stat.Item variant="value">
+              {friends.data?.reduce(
+                (acc, friend) => acc + friend.events.length,
+                0
+              )}
+            </Stats.Stat.Item>
             <Stats.Stat.Item variant="desc">
               tracked with <b>meetr</b>
             </Stats.Stat.Item>
