@@ -11,7 +11,9 @@ export default function HeaderTabs() {
       ? Tab.Profile
       : path === "/meets"
       ? Tab.Meets
-      : Tab.Friends;
+      : path === "/"
+      ? Tab.Friends
+      : undefined;
   const handleChange = (value: Tab) => {
     switch (value) {
       case Tab.Friends:
