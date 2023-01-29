@@ -1,4 +1,5 @@
 "use client";
+import { ArrowSmallRightIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 
 import { AsYouType, parsePhoneNumber } from "libphonenumber-js";
@@ -42,11 +43,11 @@ export default function SMSVerif() {
     } else {
       console.log("no data");
       console.log(verificationServiceMutation.error);
+      setVerifyStep(Step.Invalid);
     }
   };
 
   const handleCodeSubmit = () => {
-    console.log("hewoo");
     if (verificationServiceMutation.data && inputCode && sentPhoneNumber) {
       checkTokenMutation.mutate({
         serviceSid: verificationServiceMutation.data.sid as string,
@@ -58,48 +59,72 @@ export default function SMSVerif() {
   };
 
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
-      <Input
-        type="text"
-        placeholder="phone number"
-        className="input w-full max-w-xs"
-        value={phoneNumber}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          const currentNumber = new AsYouType("US").input(e.target.value);
-          setVerifyStep(Step.Unsent);
-          setPhoneNumber(currentNumber);
-        }}
-      />
-      <button
-        className="btn"
-        onClick={handleNumberSubmit}
-        disabled={sendTokenMutation.isLoading}
-      >
-        {verifyStep == Step.Unsent
-          ? "send verification message"
-          : verifyStep == Step.Invalid
-          ? "invalid phone number"
-          : verifyStep == Step.Sent
-          ? "sent"
-          : "verified"}
-      </button>
+    <div className="flex shadow-xl">
+      {(verifyStep == Step.Unsent || verifyStep == Step.Invalid) && (
+        <div className="card-body items-center text-center">
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-row gap-4">
+              <Input
+                type="text"
+                placeholder="phone number"
+                className="input w-full max-w-xs"
+                value={phoneNumber}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  const currentNumber = new AsYouType("US").input(
+                    e.target.value
+                  );
+                  setVerifyStep(Step.Unsent);
+                  setPhoneNumber(currentNumber);
+                }}
+              />
+              <button onClick={handleNumberSubmit}>
+                <ArrowSmallRightIcon className="h-6 w-6" />
+              </button>
+            </div>
+            {verifyStep == Step.Invalid && (
+              <div className="alert alert-error shadow-lg">
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 flex-shrink-0 stroke-current"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span>Invalid number</span>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
-      <Input
-        type="text"
-        placeholder="verification code"
-        className="input w-full max-w-xs"
-        value={inputCode}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setInputCode(e.target.value);
-        }}
-      />
-      <button
-        className="btn"
-        onClick={handleCodeSubmit}
-        disabled={checkTokenMutation.isLoading}
-      >
-        send
-      </button>
+      {verifyStep == Step.Sent && (
+        <>
+          <Input
+            type="text"
+            placeholder="verification code"
+            className="input w-full max-w-xs"
+            value={inputCode}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setInputCode(e.target.value);
+            }}
+          />
+          <button
+            className="btn"
+            onClick={handleCodeSubmit}
+            disabled={checkTokenMutation.isLoading}
+          >
+            send
+          </button>
+        </>
+      )}
     </div>
   );
 }
