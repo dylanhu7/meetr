@@ -21,7 +21,27 @@ export default function SMSVerif() {
   const [sid, setSid] = useState("");
   const [inputCode, setInputCode] = useState("");
   const verificationServiceMutation =
-    api.twilio.verificationService.useMutation();
+    api.twilio.verificationService.useMutation({
+      onSuccess: (data) => {
+        console.log(data);
+        let rawPhoneNumber;
+        try {
+          rawPhoneNumber = parsePhoneNumber(phoneNumber, "US").number ?? null;
+        } catch {
+          setVerifyStep(Step.InvalidNumber);
+        }
+        if (rawPhoneNumber && data.sid) {
+          setSentPhoneNumber(rawPhoneNumber);
+          setVerifyStep(Step.Sent);
+          setSid(data.sid);
+          sendTokenMutation.mutate({
+            serviceSid: data.sid,
+            receivingNumber: rawPhoneNumber,
+          });
+        }
+      },
+    });
+
   const sendTokenMutation = api.twilio.sendToken.useMutation();
   const checkTokenMutation = api.twilio.checkToken.useMutation();
 
@@ -71,35 +91,14 @@ export default function SMSVerif() {
     );
   }
 
-  const handleNumberSubmit = async () => {
-    await verificationServiceMutation.mutate();
-    if (verificationServiceMutation.data) {
-      let rawPhoneNumber;
-      try {
-        rawPhoneNumber = parsePhoneNumber(phoneNumber, "US").number ?? null;
-      } catch {
-        setVerifyStep(Step.InvalidNumber);
-      }
-      if (rawPhoneNumber && verificationServiceMutation.data.sid) {
-        setSentPhoneNumber(rawPhoneNumber);
-        setVerifyStep(Step.Sent);
-        setSid(verificationServiceMutation.data.sid);
-        sendTokenMutation.mutate({
-          serviceSid: verificationServiceMutation.data.sid as string,
-          receivingNumber: rawPhoneNumber,
-        });
-      }
-    } else {
-      console.log("no data");
-      console.log(verificationServiceMutation);
-      setVerifyStep(Step.InvalidNumber);
-    }
+  const handleNumberSubmit = () => {
+    verificationServiceMutation.mutate();
   };
 
   const handleCodeSubmit = () => {
     if (verificationServiceMutation.data && inputCode && sentPhoneNumber) {
       checkTokenMutation.mutate({
-        serviceSid: sid as string,
+        serviceSid: sid,
         receivingNumber: sentPhoneNumber,
         code: inputCode,
       });
