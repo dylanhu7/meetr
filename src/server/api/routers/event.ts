@@ -4,11 +4,24 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const eventsRouter = createTRPCRouter({
   getEvents: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.event.findMany({
-      include: {
-        friend: true,
-      },
-    });
+    return ctx.prisma.friend
+      .findMany({
+        where: {
+          userId: ctx.session.user.id,
+        },
+      })
+      .then((friends) => {
+        return ctx.prisma.event.findMany({
+          where: {
+            friendId: {
+              in: friends.map((friend) => friend.id),
+            },
+          },
+          include: {
+            friend: true,
+          },
+        });
+      });
   }),
   addEvent: protectedProcedure
     .input(
