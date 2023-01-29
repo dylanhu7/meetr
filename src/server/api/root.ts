@@ -1,8 +1,5 @@
 import { exampleRouter } from "./routers/example";
-<<<<<<< HEAD
 import { friendsRouter } from "./routers/friends";
-=======
->>>>>>> bb6a73b176e12ce187c673277ce5f9ee77ea7e81
 import { twilioRouter } from "./routers/twilio";
 import { createTRPCRouter } from "./trpc";
 
@@ -13,10 +10,7 @@ import { createTRPCRouter } from "./trpc";
  */
 export const appRouter = createTRPCRouter({
   example: exampleRouter,
-<<<<<<< HEAD
   friends: friendsRouter,
-=======
->>>>>>> bb6a73b176e12ce187c673277ce5f9ee77ea7e81
   twilio: twilioRouter,
 });
 
