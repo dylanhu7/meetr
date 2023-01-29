@@ -5,7 +5,7 @@
 import type { Event } from "@prisma/client";
 
 const GROWTH_FACTOR = 1.05;
-const FACTOR = 100 / 18;
+const FACTOR = 100 / 6.5;
 
 /**
  * Computes the score for a list of events. Score is the sum over all event
