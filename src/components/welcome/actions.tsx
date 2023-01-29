@@ -25,6 +25,7 @@ export function SignIn() {
       onClick={() => void signIn("google")}
       color="primary"
       variant="outline"
+      size="lg"
       startIcon={<ArrowLeftOnRectangleIcon className="h-6 w-6" />}
     >
       Sign in
