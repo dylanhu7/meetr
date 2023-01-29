@@ -20,6 +20,10 @@
     "@trpc/server": "^10.8.1",
     "daisyui": "^2.49.0",
     "dayjs": "^1.11.7",
+    "heroicons": "^2.0.14",
+    "libphonenumber-js": "^1.10.18",
+    "next": "^13.1.2",
+    "next": "13.1.2",
     "libphonenumber-js": "^1.10.18",
     "next": "^13.1.2",
     "next-auth": "^4.18.7",
@@ -27,7 +31,9 @@
     "react-daisyui": "^3.0.2",
     "react-dom": "18.2.0",
     "react-tailwindcss-datepicker": "^1.4.1",
+    "react-transition-group": "^4.4.5",
     "superjson": "1.9.1",
+    "twilio": "^3.84.1",
     "zod": "^3.20.2"
   },
   "devDependencies": {
