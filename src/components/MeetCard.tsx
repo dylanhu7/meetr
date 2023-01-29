@@ -1,8 +1,10 @@
-import type { Event } from "@prisma/client";
+import type { Event, Friend } from "@prisma/client";
 import { Collapse } from "react-daisyui";
 
 interface MeetCardProps {
-  meet: Event;
+  meet: Event & {
+    friend: Friend;
+  };
 }
 
 export default function MeetCard(props: MeetCardProps) {
@@ -11,11 +13,12 @@ export default function MeetCard(props: MeetCardProps) {
       <Collapse.Title className="flex min-h-fit w-full p-0 text-lg">
         <div>
           <strong>{props.meet.name}</strong> with{" "}
-          <strong>{props.meet.friendId}</strong>
+          <strong>{props.meet.friend.id}</strong>
         </div>
       </Collapse.Title>
       <Collapse.Content className="px-0">
-        <strong>Notes: </strong>Had a great lunch, ate ramen!
+        <strong>Notes: </strong>
+        {props.meet.note}
       </Collapse.Content>
     </Collapse>
   );

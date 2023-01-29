@@ -106,14 +106,14 @@ export default function FriendsList() {
               }
             })
             .map((friend, index) => (
-              <>
-                <li key={friend.id}>
+              <div key={friend.id}>
+                <li>
                   <FriendCard friend={friend} />
                 </li>
                 {index !== friends.data.length - 1 && (
                   <hr className="mx-4"></hr>
                 )}
-              </>
+              </div>
             ))}
         </ul>
         <div className="flex justify-center opacity-40">
