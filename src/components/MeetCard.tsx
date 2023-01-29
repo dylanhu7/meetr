@@ -23,6 +23,11 @@ export default function MeetCard(props: MeetCardProps) {
       <Collapse.Content className="px-0">
         <strong>Notes: </strong>
         {props.meet.note}
+        <div>
+          <div className="text-sm text-gray-500">
+            {new Date(props.meet.date).toLocaleDateString()}
+          </div>
+        </div>
       </Collapse.Content>
     </Collapse>
   );
