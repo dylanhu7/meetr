@@ -4,6 +4,9 @@ import MeetCard from "./MeetCard";
 
 export default function MeetsList() {
   const events = api.events.getEvents.useQuery();
+  if (events.isLoading) {
+    return null;
+  }
   return (
     <div className="flex flex-col">
       <div className="flex flex-col gap-4">

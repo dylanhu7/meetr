@@ -51,7 +51,7 @@ const FriendPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {friend.data ? (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-6">
           <FriendNameEditable friend={friend.data} />
           <Card compact="sm">
             <Card.Body>

@@ -176,11 +176,11 @@ export default function SMSVerif() {
   return (
     <div>
       <div className="flex flex-col gap-3">
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-4 pr-2">
           <Input
             type="text"
             placeholder="phone number"
-            className="input w-full max-w-xs"
+            className="input w-full"
             value={phoneNumber}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const currentNumber = new AsYouType("US").input(e.target.value);
