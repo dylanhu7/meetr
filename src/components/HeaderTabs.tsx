@@ -7,7 +7,11 @@ export default function HeaderTabs() {
   const router = useRouter();
   const path = usePathname();
   const value =
-    path === "/" ? Tab.Friends : path === "/meets" ? Tab.Meets : Tab.Profile;
+    path === "/profile"
+      ? Tab.Profile
+      : path === "/meets"
+      ? Tab.Meets
+      : Tab.Friends;
   const handleChange = (value: Tab) => {
     switch (value) {
       case Tab.Friends:
