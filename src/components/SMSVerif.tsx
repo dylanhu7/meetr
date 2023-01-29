@@ -17,10 +17,8 @@ enum Step {
 export default function SMSVerif() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [sentPhoneNumber, setSentPhoneNumber] = useState("");
-  // const [sentPhoneNumber, setSentPhoneNumber] = useState("+16509429459");
   const [verifyStep, setVerifyStep] = useState<Step>(Step.Unsent);
   const [sid, setSid] = useState("");
-  // const [verifyStep, setVerifyStep] = useState<Step>(Step.Sent);
   const [inputCode, setInputCode] = useState("");
   const verificationServiceMutation =
     api.twilio.verificationService.useMutation();
@@ -73,8 +71,8 @@ export default function SMSVerif() {
     );
   }
 
-  const handleNumberSubmit = () => {
-    verificationServiceMutation.mutate();
+  const handleNumberSubmit = async () => {
+    await verificationServiceMutation.mutate();
     if (verificationServiceMutation.data) {
       let rawPhoneNumber;
       try {

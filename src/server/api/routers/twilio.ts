@@ -22,6 +22,7 @@ export const twilioRouter = createTRPCRouter({
     const service = await client.verify.v2.services.create({
       friendlyName: "meetr",
     });
+    console.log("hereasdfasdf" + JSON.stringify(service));
     return { sid: service.sid };
   }),
 
