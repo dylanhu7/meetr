@@ -1,11 +1,12 @@
 "use client";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/solid";
+import { useSession } from "next-auth/react";
 import { useRef, useState } from "react";
 import { Transition } from "react-transition-group";
 
 import { AsYouType, parsePhoneNumber } from "libphonenumber-js";
 import { Input } from "react-daisyui";
-import { api } from "../utils/api";
+import { api } from "../../utils/api";
 
 enum Step {
   Unsent = "unsent",
@@ -30,6 +31,7 @@ const transitionStyles = {
 };
 
 export default function SMSVerif() {
+  const { data: session } = useSession();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [sentPhoneNumber, setSentPhoneNumber] = useState("");
   const [verifyStep, setVerifyStep] = useState<Step>(Step.Unsent);
@@ -65,6 +67,12 @@ export default function SMSVerif() {
       },
     });
 
+  const updateNumberMutation = api.user.updateNumber.useMutation({
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
+
   const sendTokenMutation = api.twilio.sendToken.useMutation({
     onSuccess: () => {
       setVerifyStep(Step.Sent);
@@ -79,11 +87,18 @@ export default function SMSVerif() {
 
   const checkTokenMutation = api.twilio.checkToken.useMutation({
     onSuccess: (data) => {
+      console.log("eeee");
       console.log(data);
       if (data.verification_check == "pending") {
         setVerifyStep(Step.InvalidCode);
       } else {
         setVerifyStep(Step.Verified);
+        if (session.user) {
+          updateNumberMutation.mutate({
+            id: session.user.id,
+            phone: sentPhoneNumber,
+          });
+        }
       }
     },
     onError: (error) => {

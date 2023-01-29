@@ -1,12 +1,12 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import SMSVerif from "../components/SMSVerif";
-// import FriendsList from "../components/FriendsList";
+import FriendsList from "../components/FriendsList";
+import SMSVerif from "../components/sms/SMSVerif";
 
 export default function Home() {
   const { data: session } = useSession();
   console.log(session);
-  //   const friends = api.friends.getFriends.useQuery();
+  // const friends = api.friends.getFriends.useQuery();
   return (
     <>
       <Head>
@@ -14,7 +14,7 @@ export default function Home() {
         <meta name="description" content="friends, managed." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <FriendsList /> */}
+      <FriendsList />
       <SMSVerif />
     </>
   );

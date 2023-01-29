@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import twilio from "twilio";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -9,12 +9,6 @@ const messagingService = process.env.TWILIO_MESSAGING_SERVICE;
 const senderNumber = process.env.TWILIO_NUMBER;
 
 const client = twilio(accountSid, authToken);
-
-// const ZDate = z.object({
-//   year: z.string(),
-// });
-
-// Date.UTC(year, monthIndex, day, hour, minute)
 
 function test_message(receiver: string) {
   client.messages.create({
@@ -25,15 +19,14 @@ function test_message(receiver: string) {
 }
 
 export const twilioRouter = createTRPCRouter({
-  verificationService: publicProcedure.mutation(async () => {
+  verificationService: protectedProcedure.mutation(async () => {
     const service = await client.verify.v2.services.create({
       friendlyName: "meetr",
     });
-    console.log("hereasdfasdf" + JSON.stringify(service));
     return { sid: service.sid };
   }),
 
-  sendToken: publicProcedure
+  sendToken: protectedProcedure
     .input(z.object({ serviceSid: z.string(), receivingNumber: z.string() }))
     .mutation(async ({ input }) => {
       const verification = await client.verify.v2
@@ -42,7 +35,7 @@ export const twilioRouter = createTRPCRouter({
       return { verification_status: verification.status };
     }),
 
-  checkToken: publicProcedure
+  checkToken: protectedProcedure
     .input(
       z.object({
         serviceSid: z.string(),
@@ -61,7 +54,26 @@ export const twilioRouter = createTRPCRouter({
       return { verification_check: verification_check.status };
     }),
 
-  scheduleMessage: publicProcedure
+  updateNumber: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        phone: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.user.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          phone: input.phone,
+          phoneVerified: true,
+        },
+      });
+    }),
+
+  scheduleMessage: protectedProcedure
     .input(
       z.object({
         text: z.string(),
@@ -80,7 +92,7 @@ export const twilioRouter = createTRPCRouter({
       return { sid: message.sid };
     }),
 
-  cancelScheduledMessage: publicProcedure
+  cancelScheduledMessage: protectedProcedure
     .input(
       z.object({
         sid: z.string(),
