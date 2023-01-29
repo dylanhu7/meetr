@@ -55,7 +55,26 @@ export default function FriendsList() {
             </Stats.Stat.Item>
             <Stats.Stat.Item variant="desc">
               {/* TODO: percentage met with */}
-              met with <b>40%</b> last month
+              met with{" "}
+              <b>
+                {friends.data
+                  ? // Computes the percentage of friends who have an event in the last month
+                    // rounded to the nearest integer out of 100
+                    Math.floor(
+                      (friends.data?.filter((friend) =>
+                        friend.events.some(
+                          (event) =>
+                            new Date(event.date).getTime() >
+                            new Date().getTime() - 30 * 24 * 60 * 60 * 1000
+                        )
+                      ).length /
+                        friends.data?.length) *
+                        100
+                    ).toString()
+                  : "0"}
+                %
+              </b>{" "}
+              last month
             </Stats.Stat.Item>
             <Stats.Stat.Item variant="figure" className="text-primary">
               <UserCircleIcon className="h-8 w-8" />
