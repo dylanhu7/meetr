@@ -69,18 +69,18 @@ model VerificationToken {
 }
 
 model Friend {
-    id                 String    @id @default(cuid())
-    name               String
-    targetFriendliness Int?
-    email              String?
-    phone              String?
-    birthday           DateTime?
-    events             Event[]
-    note               String?
-    user               User      @relation(fields: [userId], references: [id])
-    userId             String
-    createdAt          DateTime  @default(now())
-    updatedAt          DateTime  @updatedAt
+    id          String    @id @default(cuid())
+    name        String
+    targetScore Int?
+    email       String?
+    phone       String?
+    birthday    DateTime?
+    events      Event[]
+    note        String?
+    user        User      @relation(fields: [userId], references: [id])
+    userId      String
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
 }
 
 model Event {

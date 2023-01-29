@@ -1,3 +1,4 @@
+import { ArrowDownOnSquareIcon } from "@heroicons/react/24/solid";
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -10,20 +11,33 @@ import FriendNameEditable from "../../components/friend_view/FriendNameEditable"
 import NoteEditable from "../../components/friend_view/NoteEditable";
 import PhoneNumberEditable from "../../components/friend_view/PhoneNumberEditable";
 import { api } from "../../utils/api";
-import computeScore from "../../utils/score";
+import computeScore, { scoreToWordFrequency } from "../../utils/score";
 
 // export default function building() {
 const FriendPage: NextPage = () => {
   const router = useRouter();
   const friendId = router.query.friendId as string;
   const friend = api.friends.getFriend.useQuery({ id: friendId });
-  const [score, setScore] = useState<number>(30);
+  const realScore = computeScore(friend.data?.events ?? []);
+  const [score, setScore] = useState<number>(
+    friend.data?.targetScore ?? realScore
+  );
+  const [loadedTargetScore, setLoadedTargetScore] = useState<number>(
+    friend.data?.targetScore ?? score
+  );
   computeScore(friend.data?.events ?? []);
 
   const deleteFriend = api.friends.deleteFriend.useMutation({
     onSuccess: () => {
       // Invalidate
       void router.push("/");
+    },
+  });
+
+  const mutation = api.friends.updateFriend.useMutation({
+    onSuccess: () => {
+      // Invalidate
+      void friend.refetch();
     },
   });
 
@@ -37,19 +51,68 @@ const FriendPage: NextPage = () => {
       {friend.data ? (
         <div className="flex flex-col gap-4">
           <FriendNameEditable friend={friend.data} />
-          <div className="flex flex-col items-center gap-1">
-            <p className="text-sm">Actual Engagement</p>
-            <FriendlyRange score={score} size={"xs"} />
-            <FriendlyRange
-              score={score}
-              setScore={setScore}
-              size="lg"
-              enabled
-            />
-            <p className="text-sm">
-              Engagement Target: You are <strong>over</strong> target.
-            </p>
-          </div>
+          <Card compact="sm">
+            <Card.Body>
+              <div className="flex flex-row">
+                <Card.Title className="grow">Engagement</Card.Title>
+                {score !== loadedTargetScore && (
+                  <Button
+                    startIcon={<ArrowDownOnSquareIcon className="h-4 w-4" />}
+                    variant="outline"
+                    size="sm"
+                    color="primary"
+                    onClick={() => {
+                      friend.data &&
+                        mutation.mutate({
+                          id: friend.data.id,
+                          targetScore: score,
+                        });
+                      setLoadedTargetScore(score);
+                    }}
+                  >
+                    Save
+                  </Button>
+                )}
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                {/* <p className="text-sm font-medium">Actual Engagement:</p> */}
+                <p className="text-sm font-light">
+                  You <span className="font-bold">currently</span> meet with
+                  them about{" "}
+                  <span className="font-bold">
+                    {scoreToWordFrequency(realScore)}
+                  </span>
+                  .{" "}
+                </p>
+                <FriendlyRange score={realScore} size={"xs"} />
+                <FriendlyRange
+                  score={score}
+                  setScore={setScore}
+                  size="lg"
+                  enabled
+                />
+                {/* <p className="text-sm">Engagement Target:</p> */}
+                <p className="text-sm font-light">
+                  You <span className="font-bold">hope to</span> meet with them
+                  about{" "}
+                  <span className="font-bold">
+                    {scoreToWordFrequency(score)}
+                  </span>
+                  .{" "}
+                </p>
+                <p>
+                  You are{" "}
+                  <strong>
+                    {loadedTargetScore - score > 0 ? "below" : "above"}
+                  </strong>{" "}
+                  target.{" "}
+                  {loadedTargetScore - score > 0
+                    ? "Try to meet with them more!"
+                    : "Great job!"}
+                </p>
+              </div>
+            </Card.Body>
+          </Card>
           <Card compact="sm">
             <Card.Body>
               <Card.Title>Bio</Card.Title>
