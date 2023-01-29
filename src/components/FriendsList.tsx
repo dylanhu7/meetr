@@ -79,28 +79,35 @@ export default function FriendsList() {
               {friends.data?.length}
             </Stats.Stat.Item>
             <Stats.Stat.Item variant="desc">
-              met with{" "}
-              <b>
-                {friends.data
-                  ? // Computes the percentage of friends who have an event in the last month
-                    // rounded to the nearest integer out of 100
-                    (
-                      Math.floor(
-                        (friends.data?.filter((friend) =>
-                          friend.events.some(
-                            (event) =>
-                              new Date(event.date).getTime() >
-                              new Date().getTime() - 30 * 24 * 60 * 60 * 1000
-                          )
-                        ).length /
-                          friends.data?.length) *
-                          100
-                      ) ?? 0
-                    ).toString()
-                  : "0"}
-                %
-              </b>{" "}
-              last month
+              {friends.data?.length == 0 ? (
+                "go add some friends!"
+              ) : (
+                <>
+                  met with{" "}
+                  <b>
+                    {friends.data
+                      ? // Computes the percentage of friends who have an event in the last month
+                        // rounded to the nearest integer out of 100
+                        (
+                          Math.floor(
+                            (friends.data?.filter((friend) =>
+                              friend.events.some(
+                                (event) =>
+                                  new Date(event.date).getTime() >
+                                  new Date().getTime() -
+                                    30 * 24 * 60 * 60 * 1000
+                              )
+                            ).length /
+                              friends.data?.length) *
+                              100
+                          ) ?? 0
+                        ).toString()
+                      : "0"}
+                    %
+                  </b>{" "}
+                  last month
+                </>
+              )}
             </Stats.Stat.Item>
             <Stats.Stat.Item variant="figure" className="text-primary">
               <UserCircleIcon className="h-8 w-8" />
