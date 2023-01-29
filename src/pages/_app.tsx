@@ -19,7 +19,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           className="w-screen max-w-lg overflow-hidden"
         >
           <Header />
-          <main className="screen min-h-[calc(100vh-4rem)] w-full overflow-clip bg-white">
+          <main className="screen min-h-[calc(100vh-4rem)] w-full overflow-clip bg-white p-4 md:p-6">
             <Component {...pageProps} />
           </main>
         </div>
