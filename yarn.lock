@@ -3,6 +3,7 @@
 
 
 "@babel/runtime@^7.16.3", "@babel/runtime@^7.20.7", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
+"@babel/runtime@^7.16.3", "@babel/runtime@^7.20.7", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
   version "7.20.13"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.20.13.tgz#7055ab8a7cff2b8f6058bf6ae45ff84ad2aded4b"
   integrity sha512-gt3PKXs0DBoL9xCvOIIZ2NEqAGZqHjAnmVbfQtB620V0uReIQutpel14KcneZuer7UioY8ALKZ7iocavvzTNFA==
@@ -915,6 +916,9 @@ doctrine@^3.0.0:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> cdffe6c (idk something does somethign)
 dom-helpers@^5.0.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/dom-helpers/-/dom-helpers-5.2.1.tgz#d9400536b2bf8225ad98fe052e029451ac40e902"
@@ -923,10 +927,13 @@ dom-helpers@^5.0.1:
     "@babel/runtime" "^7.8.7"
     csstype "^3.0.2"
 
+<<<<<<< HEAD
 =======
 >>>>>>> deae3f8 (style frontend changes)
 =======
 >>>>>>> b89c591 (oopsies)
+=======
+>>>>>>> cdffe6c (idk something does somethign)
 ecdsa-sig-formatter@1.0.11:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/ecdsa-sig-formatter/-/ecdsa-sig-formatter-1.0.11.tgz#ae0f0fa2d85045ef14a817daa3ce9acd0489e5bf"
@@ -2414,10 +2421,14 @@ prisma@^4.8.0:
     "@prisma/engines" "4.9.0"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 prop-types@^15.6.2, prop-types@^15.8.1:
 =======
 prop-types@^15.8.1:
 >>>>>>> b89c591 (oopsies)
+=======
+prop-types@^15.6.2, prop-types@^15.8.1:
+>>>>>>> cdffe6c (idk something does somethign)
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -2487,6 +2498,7 @@ react-ssr-prepass@^1.5.0:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 react-tailwindcss-datepicker@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/react-tailwindcss-datepicker/-/react-tailwindcss-datepicker-1.4.1.tgz#97e48f519a7b765ff91ba580d86cd0c8c9311c44"
@@ -2494,6 +2506,10 @@ react-tailwindcss-datepicker@^1.4.1:
 =======
 =======
 >>>>>>> f152696 (oopsies)
+=======
+=======
+>>>>>>> cdffe6c (idk something does somethign)
+>>>>>>> b1a2926 (idk something does somethign)
 react-transition-group@^4.4.5:
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.5.tgz#e53d4e3f3344da8521489fbef8f2581d42becdd1"
@@ -2505,8 +2521,11 @@ react-transition-group@^4.4.5:
     prop-types "^15.6.2"
 >>>>>>> 948a10f (im crying)
 
+<<<<<<< HEAD
 =======
 >>>>>>> b89c591 (oopsies)
+=======
+>>>>>>> cdffe6c (idk something does somethign)
 react@18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
