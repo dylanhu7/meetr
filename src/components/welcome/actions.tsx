@@ -8,6 +8,7 @@ import { Button } from "react-daisyui";
 export function SignOut() {
   return (
     <Button
+      size="sm"
       onClick={() => void signOut()}
       color="error"
       variant="outline"
