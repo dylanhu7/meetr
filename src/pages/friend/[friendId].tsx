@@ -1,4 +1,5 @@
 import { ArrowDownOnSquareIcon } from "@heroicons/react/24/solid";
+import type { Event } from "@prisma/client";
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -129,9 +130,13 @@ const FriendPage: NextPage = () => {
                 <LogMeet friendId={friendId} />
               </div>
               <div className="flex flex-col gap-4">
-                {friend.data.events.map((event) => (
-                  <MeetConcise event={event} key={event.id} />
-                ))}
+                {friend.data.events
+                  .sort(
+                    (a: Event, b: Event) => b.date.getTime() - a.date.getTime()
+                  )
+                  .map((event) => (
+                    <MeetConcise event={event} key={event.id} />
+                  ))}
               </div>
               {friend.data.events.length === 0 && (
                 <p className="text-sm text-gray-500">
