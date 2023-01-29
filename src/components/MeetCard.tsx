@@ -1,37 +1,22 @@
-import { Badge, Card, Collapse } from "react-daisyui";
+import type { Event } from "@prisma/client";
+import { Collapse } from "react-daisyui";
 
-export default function MeetCard() {
+interface MeetCardProps {
+  meet: Event;
+}
+
+export default function MeetCard(props: MeetCardProps) {
   return (
-    <Card>
-      <Collapse icon="plus" className="card">
-        <Collapse.Title className="text-xl font-light">
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-0">
-              <div className="flex items-center gap-2">
-                <p>
-                  met with <span className="font-bold">Nishka P.</span> for{" "}
-                  <span className="font-bold">lunch</span>
-                </p>
-              </div>
-              <p className="text-xs">yesterday</p>
-            </div>
-            <div className="flex gap-2">
-              <Badge variant="outline" color="primary">
-                food
-              </Badge>
-              <Badge variant="outline" color="secondary">
-                catch up
-              </Badge>
-              <Badge variant="outline" color="accent">
-                pizza
-              </Badge>
-            </div>
-          </div>
-        </Collapse.Title>
-        <Collapse.Content>
-          <strong>Notes: </strong>Had a great lunch, ate ramen!
-        </Collapse.Content>
-      </Collapse>
-    </Card>
+    <Collapse className="collapse-arrow collapse flex w-full flex-col items-start">
+      <Collapse.Title className="flex min-h-fit w-full p-0 text-lg">
+        <div>
+          <strong>{props.meet.name}</strong> with{" "}
+          <strong>{props.meet.friendId}</strong>
+        </div>
+      </Collapse.Title>
+      <Collapse.Content className="px-0">
+        <strong>Notes: </strong>Had a great lunch, ate ramen!
+      </Collapse.Content>
+    </Collapse>
   );
 }
