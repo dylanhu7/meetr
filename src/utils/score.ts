@@ -4,7 +4,7 @@
 
 import type { Event } from "@prisma/client";
 
-const GROWTH_FACTOR = 1.01;
+const GROWTH_FACTOR = 1.05;
 const FACTOR = 100 / 18;
 
 /**

@@ -152,7 +152,10 @@ const FriendPage: NextPage = () => {
                     variant="outline"
                     color="error"
                     size="sm"
-                    onClick={() => deleteFriend.mutate({ id: friendId })}
+                    onClick={() => {
+                      console.log("deleting a friend");
+                      deleteFriend.mutate({ id: friendId });
+                    }}
                   >
                     Delete Friend
                   </Button>
