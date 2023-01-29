@@ -9,7 +9,13 @@ export default function AddFriend() {
   const [isOpen, setIsOpen] = useState(false);
   const [friendName, setFriendName] = useState<string>();
 
-  const mutation = api.friends.addFriend.useMutation();
+  const utils = api.useContext();
+  const mutation = api.friends.addFriend.useMutation({
+    onSettled() {
+      // Sync with server once mutation has settled
+      void utils.friends.getFriends.invalidate();
+    },
+  });
   const newFriend =
     session?.user && friendName !== undefined
       ? {

@@ -10,7 +10,6 @@ import FriendCard from "./FriendCard";
 
 export default function FriendsList() {
   const friends = api.friends.getFriends.useQuery();
-  console.log(friends);
   return (
     <>
       <div className="flex flex-col gap-4">
@@ -53,8 +52,8 @@ export default function FriendsList() {
           </Stats.Stat>
         </Stats>
         <div className="flex flex-col gap-4">
-          {[...Array(10).keys()].map((i) => (
-            <FriendCard key={i} />
+          {friends.data?.map((friend) => (
+            <FriendCard key={friend.id} friend={friend} />
           ))}
         </div>
         <div className="flex justify-center opacity-40">
