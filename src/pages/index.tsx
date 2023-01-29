@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import FriendList from "../components/FriendList";
+import FriendsList from "../components/FriendsList";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -13,7 +13,7 @@ export default function Home() {
         <meta name="description" content="friends, managed." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <FriendList />
+      <FriendsList />
     </>
   );
 }
