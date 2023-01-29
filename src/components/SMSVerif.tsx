@@ -8,20 +8,70 @@ import { api } from "../utils/api";
 
 enum Step {
   Unsent = "unsent",
-  Invalid = "invalid",
+  InvalidNumber = "invalid_number",
   Sent = "sent",
+  InvalidCode = "invalid_code",
   Verified = "verified",
 }
 
 export default function SMSVerif() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [sentPhoneNumber, setSentPhoneNumber] = useState("");
+  // const [sentPhoneNumber, setSentPhoneNumber] = useState("+16509429459");
   const [verifyStep, setVerifyStep] = useState<Step>(Step.Unsent);
+  const [sid, setSid] = useState("");
+  // const [verifyStep, setVerifyStep] = useState<Step>(Step.Sent);
   const [inputCode, setInputCode] = useState("");
   const verificationServiceMutation =
     api.twilio.verificationService.useMutation();
   const sendTokenMutation = api.twilio.sendToken.useMutation();
   const checkTokenMutation = api.twilio.checkToken.useMutation();
+
+  function ErrorMessage(prop: { message: string }) {
+    return (
+      <div className="alert alert-error shadow-lg">
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 flex-shrink-0 stroke-current"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>{prop.message}</span>
+        </div>
+      </div>
+    );
+  }
+
+  function SuccesMessage(prop: { message: string }) {
+    return (
+      <div className="alert alert-success shadow-lg">
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 flex-shrink-0 stroke-current"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>prop.message</span>
+        </div>
+      </div>
+    );
+  }
 
   const handleNumberSubmit = () => {
     verificationServiceMutation.mutate();
@@ -30,11 +80,12 @@ export default function SMSVerif() {
       try {
         rawPhoneNumber = parsePhoneNumber(phoneNumber, "US").number ?? null;
       } catch {
-        setVerifyStep(Step.Invalid);
+        setVerifyStep(Step.InvalidNumber);
       }
       if (rawPhoneNumber && verificationServiceMutation.data.sid) {
         setSentPhoneNumber(rawPhoneNumber);
         setVerifyStep(Step.Sent);
+        setSid(verificationServiceMutation.data.sid);
         sendTokenMutation.mutate({
           serviceSid: verificationServiceMutation.data.sid as string,
           receivingNumber: rawPhoneNumber,
@@ -42,26 +93,32 @@ export default function SMSVerif() {
       }
     } else {
       console.log("no data");
-      console.log(verificationServiceMutation.error);
-      setVerifyStep(Step.Invalid);
+      console.log(verificationServiceMutation);
+      setVerifyStep(Step.InvalidNumber);
     }
   };
 
   const handleCodeSubmit = () => {
     if (verificationServiceMutation.data && inputCode && sentPhoneNumber) {
       checkTokenMutation.mutate({
-        serviceSid: verificationServiceMutation.data.sid as string,
+        serviceSid: sid as string,
         receivingNumber: sentPhoneNumber,
         code: inputCode,
       });
       console.log(checkTokenMutation.data);
-    }
+      setVerifyStep(Step.Verified);
+    } else {
+      console.log("no bitches");
+      console.log(sid);
+      console.log(inputCode);
+      console.log(sentPhoneNumber);
+    } // TODO : update the step state
   };
 
   return (
-    <div className="flex shadow-xl">
-      {(verifyStep == Step.Unsent || verifyStep == Step.Invalid) && (
-        <div className="card-body items-center text-center">
+    <div>
+      {(verifyStep == Step.Unsent || verifyStep == Step.InvalidNumber) && (
+        <div className="items-center text-center">
           <div className="flex flex-col gap-3">
             <div className="flex flex-row gap-4">
               <Input
@@ -81,49 +138,42 @@ export default function SMSVerif() {
                 <ArrowSmallRightIcon className="h-6 w-6" />
               </button>
             </div>
-            {verifyStep == Step.Invalid && (
-              <div className="alert alert-error shadow-lg">
-                <div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 flex-shrink-0 stroke-current"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span>Invalid number</span>
-                </div>
-              </div>
+
+            {verifyStep == Step.InvalidNumber && (
+              <ErrorMessage message={"invalid number"} />
             )}
           </div>
         </div>
       )}
 
-      {verifyStep == Step.Sent && (
-        <>
-          <Input
-            type="text"
-            placeholder="verification code"
-            className="input w-full max-w-xs"
-            value={inputCode}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setInputCode(e.target.value);
-            }}
-          />
-          <button
-            className="btn"
-            onClick={handleCodeSubmit}
-            disabled={checkTokenMutation.isLoading}
-          >
-            send
-          </button>
-        </>
+      {(verifyStep == Step.Sent ||
+        verifyStep == Step.InvalidCode ||
+        verifyStep == Step.Verified) && (
+        <div className="items-center text-center">
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-row gap-4">
+              <Input
+                type="text"
+                placeholder="verification code"
+                className="input w-full max-w-xs"
+                value={inputCode}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setInputCode(e.target.value);
+                }}
+              />
+              <button onClick={handleCodeSubmit}>
+                <ArrowSmallRightIcon className="h-6 w-6" />
+              </button>
+            </div>
+
+            {verifyStep == Step.InvalidCode && (
+              <ErrorMessage message={"invalid code"} />
+            )}
+            {verifyStep == Step.Verified && (
+              <SuccesMessage message={"confirmed!"} />
+            )}
+          </div>
+        </div>
       )}
     </div>
   );

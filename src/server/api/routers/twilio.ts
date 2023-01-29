@@ -9,12 +9,6 @@ const senderNumber = process.env.TWILIO_NUMBER;
 
 const client = require("twilio")(accountSid, authToken);
 
-// const ZDate = z.object({
-//   year: z.string(),
-// });
-
-// Date.UTC(year, monthIndex, day, hour, minute)
-
 function test_message(receiver: string) {
   client.messages.create({
     from: senderNumber,
