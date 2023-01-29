@@ -8,10 +8,14 @@ import type { DateValueType } from "react-tailwindcss-datepicker/dist/types";
 import { api } from "../../utils/api";
 import { dateToDateValue } from "../friend_view/BirthdayEditable";
 
-export default function LogMeet() {
+export interface LogMeetProps {
+  friendId?: string;
+}
+
+export default function LogMeet(props: LogMeetProps) {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
-  const [friendId, setFriendId] = useState<string>();
+  const [friendId, setFriendId] = useState(props.friendId);
   const [eventName, setEventName] = useState<string>();
   const [eventDate, setEventDate] = useState<DateValueType>(
     dateToDateValue(new Date())
@@ -26,6 +30,7 @@ export default function LogMeet() {
   const mutation = api.events.addEvent.useMutation({
     onSuccess: (event) => {
       void utils.friends.getFriends.invalidate();
+      void utils.friends.getFriend.invalidate();
     },
   });
   const newEvent =

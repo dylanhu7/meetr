@@ -10,6 +10,8 @@ import EmailEditable from "../../components/friend_view/EmailEditable";
 import FriendNameEditable from "../../components/friend_view/FriendNameEditable";
 import NoteEditable from "../../components/friend_view/NoteEditable";
 import PhoneNumberEditable from "../../components/friend_view/PhoneNumberEditable";
+import LogMeet from "../../components/log_meet/LogMeet";
+import MeetConcise from "../../components/meets/MeetConcise";
 import { api } from "../../utils/api";
 import computeScore, { scoreToWordFrequency } from "../../utils/score";
 
@@ -120,6 +122,24 @@ const FriendPage: NextPage = () => {
               <BirthdayEditable friend={friend.data} />
               <EmailEditable friend={friend.data} />
               <NoteEditable friend={friend.data} />
+            </Card.Body>
+          </Card>
+          <Card compact="sm">
+            <Card.Body>
+              <div className="flex flex-row">
+                <Card.Title className="grow">Meets</Card.Title>
+                <LogMeet friendId={friendId} />
+              </div>
+              <div className="flex flex-col gap-4">
+                {friend.data.events.map((event) => (
+                  <MeetConcise event={event} key={event.id} />
+                ))}
+              </div>
+              {friend.data.events.length === 0 && (
+                <p className="text-sm text-gray-500">
+                  You haven't logged any meets with this friend yet.
+                </p>
+              )}
             </Card.Body>
           </Card>
           {/* Delete friend button */}
