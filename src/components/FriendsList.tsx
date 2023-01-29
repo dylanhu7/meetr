@@ -31,7 +31,7 @@ export default function FriendsList() {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        <Stats className="shadow">
+        <Stats className="shadow max-[500px]:stats-vertical">
           <Stats.Stat>
             <Stats.Stat.Item variant="title">Friends</Stats.Stat.Item>
             <Stats.Stat.Item variant="value">
