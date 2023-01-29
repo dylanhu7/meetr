@@ -1,28 +1,24 @@
-# Create T3 App
+![meetr poster](meetr.png)
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+# meetr
 
-## What's next? How do I make an app with this?
+meetr is an app that helps you build and maintain your relationships, whether that be for close friends or distant acquaintances. You can specify how often you would ideally like to see them, and meetr will send you SMS reminders thanks to Twilio™. You can also quickly and easily track your "meets" and store important information in each friend's profile, allowing you to remember what you last discussed or developments in their life. And of course, meetr takes your privacy very seriously, and your friends list and meet history is entirely private. With meetr's features, you can stay closer to those around you.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Install
+```bash
+yarn
+```
+to install and
+```bash
+yarn dev
+```
+to serve locally. You can run
+```bash
+yarn build
+```
+to build the site. 
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+The site is currently built by Vercel. See .env.example for how your environment variables should be set up. 
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
-
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## Devpost
+See our devpost submission [here](https://devpost.com/software/meetr-q4ywjd), or try out the app [here](https://meetr.tech/).
