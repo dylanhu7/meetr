@@ -8,7 +8,6 @@ export default async function Home() {
   console.log(session);
   //   const friends = api.friends.getFriends.useQuery();
   if (!session) {
-    // @ts-expect-error - Server component
     return <Welcome />;
   }
   return <FriendList />;

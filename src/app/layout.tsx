@@ -12,10 +12,7 @@ export default function RootLayout({
     <html lang="en" className="overscroll-none">
       <head />
       <body className="flex flex-col items-center justify-center bg-gray-100">
-        <div
-          id="mobile-container"
-          className="w-screen max-w-lg overflow-hidden"
-        >
+        <div id="mobile-container" className="w-screen max-w-lg">
           <Header />
           <main className="screen min-h-[calc(100vh-4rem)] w-full overflow-clip bg-white p-4 md:p-6">
             {children}
