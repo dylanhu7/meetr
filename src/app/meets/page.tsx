@@ -1,7 +1,7 @@
-import { type NextPage } from "next";
+import MeetsList from "../../components/MeetsPage";
 
-const MeetsPage: NextPage = () => {
-  return <>Meets!</>;
+const MeetsPage = () => {
+  return <MeetsList />;
 };
 
 export default MeetsPage;
