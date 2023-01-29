@@ -26,7 +26,7 @@ export default function FriendNameEditable({ friend }: { friend: Friend }) {
         }}
       >
         <div className="flex flex-row items-center gap-1">
-          <h3 className="text-md">friend</h3>
+          <h3 className="text-md">Name</h3>
           <PencilSquareIcon className="h-3 w-3 text-gray-500" />
         </div>
         <h2 className="text-3xl font-bold">{friend.name}</h2>
