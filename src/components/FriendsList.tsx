@@ -32,8 +32,11 @@ export default function FriendsList() {
         <Stats className="shadow">
           <Stats.Stat>
             <Stats.Stat.Item variant="title">Friends</Stats.Stat.Item>
-            <Stats.Stat.Item variant="value">42</Stats.Stat.Item>
+            <Stats.Stat.Item variant="value">
+              {friends.data?.length}
+            </Stats.Stat.Item>
             <Stats.Stat.Item variant="desc">
+              {/* TODO: percentage met with */}
               met with <b>40%</b> last month
             </Stats.Stat.Item>
             <Stats.Stat.Item variant="figure" className="text-primary">
@@ -42,6 +45,7 @@ export default function FriendsList() {
           </Stats.Stat>
           <Stats.Stat>
             <Stats.Stat.Item variant="title">Meets</Stats.Stat.Item>
+            {/* TODO: number of meets */}
             <Stats.Stat.Item variant="value">325</Stats.Stat.Item>
             <Stats.Stat.Item variant="desc">
               tracked with <b>meetr</b>
