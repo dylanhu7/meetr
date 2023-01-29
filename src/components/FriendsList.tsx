@@ -10,7 +10,9 @@ import FriendCard from "./FriendCard";
 
 export default function FriendsList() {
   const friends = api.friends.getFriends.useQuery();
-  return (
+  return friends.isLoading ? (
+    <></>
+  ) : (
     <>
       <div className="flex flex-col gap-4">
         <div className="flex justify-end gap-4">
