@@ -12,7 +12,7 @@ const ProfilePage: NextPage = () => {
         <meta name="description" content="friendship, managed." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <p>hello</p>
+      <p>profile page</p>
     </>
   );
 };
