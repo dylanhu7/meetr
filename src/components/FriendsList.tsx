@@ -3,13 +3,21 @@ import {
   ChatBubbleLeftRightIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/solid";
+import { useState } from "react";
 import { Button, Dropdown, Stats } from "react-daisyui";
 import { api } from "../utils/api";
+import computeScore from "../utils/score";
 import AddFriend from "./add_friend/AddFriend";
 import FriendCard from "./FriendCard";
 
+enum Sorts {
+  Alph = "A - Z",
+  Score = "Score",
+}
+
 export default function FriendsList() {
   const friends = api.friends.getFriends.useQuery();
+  const [sort, setSort] = useState<Sorts>(Sorts.Alph);
   return friends.isLoading ? (
     <></>
   ) : (
@@ -23,15 +31,23 @@ export default function FriendsList() {
               size="sm"
               startIcon={<ArrowsUpDownIcon className="h-4 w-4" />}
             >
-              A-Z
+              {Sorts[sort as keyof typeof Sorts]}
             </Button>
             <Dropdown.Menu className="w-52">
-              <Dropdown.Item>A-Z</Dropdown.Item>
-              <Dropdown.Item>Score</Dropdown.Item>
+              {Object.keys(Sorts).map((key) => (
+                <Dropdown.Item
+                  key={key}
+                  onClick={() => {
+                    setSort(key as Sorts);
+                  }}
+                >
+                  {Sorts[key as keyof typeof Sorts]}
+                </Dropdown.Item>
+              ))}
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        <Stats className="shadow">
+        <Stats className="shadow max-[500px]:stats-vertical">
           <Stats.Stat>
             <Stats.Stat.Item variant="title">Friends</Stats.Stat.Item>
             <Stats.Stat.Item variant="value">
@@ -39,7 +55,26 @@ export default function FriendsList() {
             </Stats.Stat.Item>
             <Stats.Stat.Item variant="desc">
               {/* TODO: percentage met with */}
-              met with <b>40%</b> last month
+              met with{" "}
+              <b>
+                {friends.data
+                  ? // Computes the percentage of friends who have an event in the last month
+                    // rounded to the nearest integer out of 100
+                    Math.floor(
+                      (friends.data?.filter((friend) =>
+                        friend.events.some(
+                          (event) =>
+                            new Date(event.date).getTime() >
+                            new Date().getTime() - 30 * 24 * 60 * 60 * 1000
+                        )
+                      ).length /
+                        friends.data?.length) *
+                        100
+                    ).toString()
+                  : "0"}
+                %
+              </b>{" "}
+              last month
             </Stats.Stat.Item>
             <Stats.Stat.Item variant="figure" className="text-primary">
               <UserCircleIcon className="h-8 w-8" />
@@ -47,8 +82,12 @@ export default function FriendsList() {
           </Stats.Stat>
           <Stats.Stat>
             <Stats.Stat.Item variant="title">Meets</Stats.Stat.Item>
-            {/* TODO: number of meets */}
-            <Stats.Stat.Item variant="value">325</Stats.Stat.Item>
+            <Stats.Stat.Item variant="value">
+              {friends.data?.reduce(
+                (acc, friend) => acc + friend.events.length,
+                0
+              )}
+            </Stats.Stat.Item>
             <Stats.Stat.Item variant="desc">
               tracked with <b>meetr</b>
             </Stats.Stat.Item>
@@ -58,14 +97,24 @@ export default function FriendsList() {
           </Stats.Stat>
         </Stats>
         <ul className="menu rounded-box menu-compact w-full border bg-base-100 p-2 lg:menu-normal">
-          {friends.data?.map((friend, index) => (
-            <>
-              <li key={friend.id}>
-                <FriendCard friend={friend} />
-              </li>
-              {index !== friends.data.length - 1 && <hr className="mx-4"></hr>}
-            </>
-          ))}
+          {friends.data
+            ?.sort((a, b) => {
+              if (sort === Sorts.Alph) {
+                return a.name.localeCompare(b.name);
+              } else {
+                return computeScore(b.events) - computeScore(a.events);
+              }
+            })
+            .map((friend, index) => (
+              <>
+                <li key={friend.id}>
+                  <FriendCard friend={friend} />
+                </li>
+                {index !== friends.data.length - 1 && (
+                  <hr className="mx-4"></hr>
+                )}
+              </>
+            ))}
         </ul>
         <div className="flex justify-center opacity-40">
           <h1 className="select-none text-4xl font-black">

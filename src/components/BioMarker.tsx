@@ -2,7 +2,7 @@ import { PencilSquareIcon } from "@heroicons/react/24/solid";
 
 export interface BioMarkerProps {
   name: string;
-  value: string;
+  value: React.ReactNode;
 }
 
 export default function BioMarker({ name, value }: BioMarkerProps) {

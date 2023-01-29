@@ -2,19 +2,30 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Card } from "react-daisyui";
-import BioMarker from "../../components/BioMarker";
+import { Button, Card, Collapse } from "react-daisyui";
 import FriendlyRange from "../../components/FriendlyRange";
+import BirthdayEditable from "../../components/friend_view/BirthdayEditable";
+import EmailEditable from "../../components/friend_view/EmailEditable";
+import FriendNameEditable from "../../components/friend_view/FriendNameEditable";
+import NoteEditable from "../../components/friend_view/NoteEditable";
+import PhoneNumberEditable from "../../components/friend_view/PhoneNumberEditable";
 import { api } from "../../utils/api";
+import computeScore from "../../utils/score";
 
 // export default function building() {
 const FriendPage: NextPage = () => {
   const router = useRouter();
   const friendId = router.query.friendId as string;
-
   const friend = api.friends.getFriend.useQuery({ id: friendId });
-
   const [score, setScore] = useState<number>(30);
+  computeScore(friend.data?.events ?? []);
+
+  const deleteFriend = api.friends.deleteFriend.useMutation({
+    onSuccess: () => {
+      // Invalidate
+      void router.push("/");
+    },
+  });
 
   return (
     <>
@@ -25,10 +36,7 @@ const FriendPage: NextPage = () => {
       </Head>
       {friend.data ? (
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col">
-            <h3 className="text-md">friend</h3>
-            <h2 className="text-3xl font-bold">{friend.data?.name}</h2>
-          </div>
+          <FriendNameEditable friend={friend.data} />
           <div className="flex flex-col items-center gap-1">
             <p className="text-sm">Actual Engagement</p>
             <FriendlyRange score={score} size={"xs"} />
@@ -45,14 +53,31 @@ const FriendPage: NextPage = () => {
           <Card compact="sm">
             <Card.Body>
               <Card.Title>Bio</Card.Title>
-              <BioMarker name="Phone Number" value="(323) 488-1111" />
-              <BioMarker name="Birthday" value="Apr 24" />
-              <BioMarker name="Email" value="linus_sun@brown.edu" />
-              <BioMarker
-                name="Note"
-                value="Likes to eat pie. Wants a vanilla bean pie for birthday."
-              />
+              <PhoneNumberEditable friend={friend.data} />
+              <BirthdayEditable friend={friend.data} />
+              <EmailEditable friend={friend.data} />
+              <NoteEditable friend={friend.data} />
             </Card.Body>
+          </Card>
+          {/* Delete friend button */}
+          <Card>
+            <Collapse icon="arrow">
+              <Collapse.Title className="text-xl font-medium">
+                Dangerous Settings
+              </Collapse.Title>
+              <Collapse.Content>
+                <div className="flex flex-col">
+                  <Button
+                    variant="outline"
+                    color="error"
+                    size="sm"
+                    onClick={() => deleteFriend.mutate({ id: friendId })}
+                  >
+                    Delete Friend
+                  </Button>
+                </div>
+              </Collapse.Content>
+            </Collapse>
           </Card>
         </div>
       ) : (
