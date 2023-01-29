@@ -88,6 +88,7 @@ model Event {
     name      String
     date      DateTime
     location  String?
+    note      String?
     friend    Friend   @relation(fields: [friendId], references: [id])
     friendId  String
     createdAt DateTime @default(now())
