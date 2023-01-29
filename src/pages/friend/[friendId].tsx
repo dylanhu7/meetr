@@ -3,7 +3,7 @@ import type { Event } from "@prisma/client";
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Collapse } from "react-daisyui";
 import FriendlyRange from "../../components/FriendlyRange";
 import BirthdayEditable from "../../components/friend_view/BirthdayEditable";
@@ -29,6 +29,11 @@ const FriendPage: NextPage = () => {
     friend.data?.targetScore ?? score
   );
   computeScore(friend.data?.events ?? []);
+
+  useEffect(() => {
+    setScore(friend.data?.targetScore ?? 0);
+    setLoadedTargetScore(friend.data?.targetScore ?? 0);
+  }, [friend.data?.targetScore]);
 
   const deleteFriend = api.friends.deleteFriend.useMutation({
     onSuccess: () => {
